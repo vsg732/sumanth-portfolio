@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Actor Portfolio Admin</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+
+            background:#090503;
+
+            font-family:Arial, Helvetica, sans-serif;
+
+            color:white;
+
+            min-height:100vh;
+
+            padding:40px;
+
+            display:flex;
+
+            justify-content:center;
+
+            align-items:center;
+        }
+
+        .admin-container{
+
+            width:100%;
+
+            max-width:800px;
+
+            background:#140b07;
+
+            padding:40px;
+
+            border-radius:25px;
+
+            box-shadow:0 0 30px rgba(0,0,0,0.5);
+        }
+
+        .title{
+
+            text-align:center;
+
+            margin-bottom:35px;
+        }
+
+        .title h1{
+
+            color:#d7a77a;
+
+            font-size:34px;
+
+            letter-spacing:2px;
+        }
+
+        .title p{
+
+            color:#c9c9c9;
+
+            margin-top:10px;
+
+            font-size:14px;
+        }
+
+        form{
+
+            display:flex;
+
+            flex-direction:column;
+
+            gap:22px;
+        }
+
+        .section-title{
+
+            margin-top:25px;
+
+            color:#f4d1af;
+
+            font-size:22px;
+
+            border-left:4px solid #d7a77a;
+
+            padding-left:12px;
+        }
+
+        .input-group{
+
+            display:flex;
+
+            flex-direction:column;
+
+            gap:8px;
+        }
+
+        label{
+
+            color:#d7a77a;
+
+            font-size:14px;
+        }
+
+        input,
+        textarea{
+
+            width:100%;
+
+            background:#24140d;
+
+            border:none;
+
+            outline:none;
+
+            padding:15px;
+
+            border-radius:10px;
+
+            color:white;
+
+            font-size:15px;
+        }
+
+        textarea{
+
+            min-height:180px;
+
+            resize:none;
+
+            line-height:1.8;
+        }
+
+        input::placeholder,
+        textarea::placeholder{
+
+            color:#888;
+        }
+
+        input[type="file"]{
+
+            padding:12px;
+        }
+
+        .film-box{
+
+            background:#1b0d07;
+
+            padding:25px;
+
+            border-radius:18px;
+
+            margin-top:20px;
+
+            border:1px solid rgba(255,255,255,0.05);
+        }
+
+        .preview-img{
+
+            width:100%;
+
+            height:250px;
+
+            object-fit:cover;
+
+            border-radius:15px;
+
+            margin-top:15px;
+
+            display:none;
+        }
+
+        .add-btn{
+
+            width:100%;
+
+            padding:15px;
+
+            margin-top:15px;
+
+            border:none;
+
+            border-radius:10px;
+
+            background:#24140d;
+
+            color:#d7a77a;
+
+            font-size:16px;
+
+            cursor:pointer;
+
+            transition:0.3s;
+        }
+
+        .add-btn:hover{
+
+            background:#342018;
+        }
+
+        .save-btn{
+
+            margin-top:20px;
+
+            background:#d7a77a;
+
+            color:black;
+
+            border:none;
+
+            padding:16px;
+
+            border-radius:10px;
+
+            font-size:16px;
+
+            font-weight:bold;
+
+            cursor:pointer;
+
+            transition:0.3s;
+        }
+
+        .save-btn:hover{
+
+            transform:translateY(-3px);
+
+            background:#e6b88c;
+        }
+
+        @media(max-width:768px){
+
+            body{
+                padding:20px;
+            }
+
+            .admin-container{
+                padding:25px;
+            }
+
+            .title h1{
+                font-size:26px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="admin-container">
+
+    <div class="title">
+
+        <h1>ACTOR PORTFOLIO ADMIN</h1>
+
+        <p>
+            Upload actor portfolio details
+        </p>
+
+    </div>
+
+    <form method="POST"
+          enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <!-- BASIC INFO -->
+
+        <div class="section-title">
+            Basic Information
+        </div>
+
+        <div class="input-group">
+
+            <label>Actor Name</label>
+
+            <input type="text"
+                   name="actor_name"
+                   placeholder="Enter actor name"
+                   required>
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Email</label>
+
+            <input type="email"
+                   name="email"
+                   placeholder="Enter email">
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Phone</label>
+
+            <input type="text"
+                   name="phone"
+                   placeholder="Enter phone number">
+
+        </div>
+
+        <!-- IMAGES -->
+
+        <div class="section-title">
+            Images
+        </div>
+
+        <div class="input-group">
+
+            <label>Background Image</label>
+
+            <input type="file"
+                   name="background">
+
+        </div>
+
+        <div class="input-group">
+
+            <label>About Image</label>
+
+            <input type="file"
+                   name="about_image">
+
+        </div>
+
+        <!-- ABOUT -->
+
+        <div class="section-title">
+            About Description
+        </div>
+
+        <div class="input-group">
+
+            <textarea
+            name="about_description"
+            placeholder="Write actor biography..."></textarea>
+
+        </div>
+
+        <!-- SOCIAL -->
+
+        <div class="section-title">
+            Social Links
+        </div>
+
+        <div class="input-group">
+
+            <label>Instagram</label>
+
+            <input type="url"
+                   name="instagram"
+                   placeholder="Instagram URL">
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Facebook</label>
+
+            <input type="url"
+                   name="facebook"
+                   placeholder="Facebook URL">
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Twitter</label>
+
+            <input type="url"
+                   name="twitter"
+                   placeholder="Twitter URL">
+
+        </div>
+
+        <div class="input-group">
+
+            <label>YouTube</label>
+
+            <input type="url"
+                   name="youtube"
+                   placeholder="YouTube URL">
+
+        </div>
+
+        <!-- FILMOGRAPHY -->
+
+        <div class="section-title">
+            Filmography
+        </div>
+
+        <div id="film-container">
+
+            <div class="film-box">
+
+                <div class="input-group">
+
+                    <label>Film Title</label>
+
+                    <input type="text"
+                           name="film_title[]"
+                           placeholder="Movie title">
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>Role</label>
+
+                    <input type="text"
+                           name="film_role[]"
+                           placeholder="Lead role">
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>Year</label>
+
+                    <input type="text"
+                           name="film_year[]"
+                           placeholder="2026">
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>Poster</label>
+
+                    <input type="file"
+                           name="film_poster[]">
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>Trailer Link</label>
+
+                    <input type="url"
+                           name="film_trailer[]"
+                           placeholder="YouTube trailer link">
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <button type="button"
+                class="add-btn"
+                onclick="addFilm()">
+
+            + Add Another Film
+
+        </button>
+
+        <!-- GALLERY -->
+
+        <div class="section-title">
+            Photo Gallery
+        </div>
+
+        <div id="gallery-container">
+
+            <div class="film-box">
+
+                <div class="input-group">
+
+                    <label>Image Name</label>
+
+                    <input type="text"
+                           name="gallery_name[]"
+                           placeholder="Image title">
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>Select Image</label>
+
+                    <input type="file"
+                           name="gallery_image[]"
+                           onchange="previewImage(event, this)">
+
+                </div>
+
+                <img class="preview-img">
+
+            </div>
+
+        </div>
+
+        <button type="button"
+                class="add-btn"
+                onclick="addGallery()">
+
+            + Add More Images
+
+        </button>
+
+        <!-- SAVE -->
+
+        <button type="submit"
+                class="save-btn">
+
+            SAVE PORTFOLIO
+
+        </button>
+
+    </form>
+
+</div>
+
+<script>
+
+function addFilm(){
+
+    let container =
+    document.getElementById("film-container");
+
+    let box =
+    document.createElement("div");
+
+    box.classList.add("film-box");
+
+    box.innerHTML = `
+
+        <div class="input-group">
+
+            <label>Film Title</label>
+
+            <input type="text"
+                   name="film_title[]"
+                   placeholder="Movie title">
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Role</label>
+
+            <input type="text"
+                   name="film_role[]"
+                   placeholder="Lead role">
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Year</label>
+
+            <input type="text"
+                   name="film_year[]"
+                   placeholder="2026">
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Poster</label>
+
+            <input type="file"
+                   name="film_poster[]">
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Trailer Link</label>
+
+            <input type="url"
+                   name="film_trailer[]"
+                   placeholder="YouTube trailer link">
+
+        </div>
+
+    `;
+
+    container.appendChild(box);
+}
+
+function addGallery(){
+
+    let container =
+    document.getElementById("gallery-container");
+
+    let box =
+    document.createElement("div");
+
+    box.classList.add("film-box");
+
+    box.innerHTML = `
+
+        <div class="input-group">
+
+            <label>Image Name</label>
+
+            <input type="text"
+                   name="gallery_name[]"
+                   placeholder="Image title">
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Select Image</label>
+
+            <input type="file"
+                   name="gallery_image[]"
+                   onchange="previewImage(event, this)">
+
+        </div>
+
+        <img class="preview-img">
+
+    `;
+
+    container.appendChild(box);
+}
+
+function previewImage(event, input){
+
+    let file = event.target.files[0];
+
+    let preview =
+    input.parentElement.parentElement
+    .querySelector(".preview-img");
+
+    if(file){
+
+        preview.src =
+        URL.createObjectURL(file);
+
+        preview.style.display = "block";
+    }
+}
+
+</script>
+
+</body>
+</html>

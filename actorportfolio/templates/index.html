@@ -1,0 +1,185 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ data.actor_name }} | Actor Portfolio</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <div class="logo">{{ data.actor_name }}</div>
+
+    <ul class="nav-links">
+        <li><a href="#about">ABOUT</a></li>
+        <li><a href="#films">FILMS</a></li>
+        <li><a href="#gallery">GALLERY</a></li>
+        <li><a href="#contact">CONTACT</a></li>
+    </ul>
+</nav>
+
+<!-- ================= HERO ================= -->
+<section class="hero"
+style="
+background-image:
+linear-gradient(to right, rgba(9,5,3,0.95) 35%, rgba(9,5,3,0.30)),
+url('{{ data.background.url }}');
+background-size:cover;
+background-position:center;
+">
+
+    <div class="hero-left">
+        <span class="small-title">| {{ data.actor_name }} |</span>
+
+        <h1>TV, Film & Theater Actor</h1>
+
+        <p>
+            Available for films, web series, advertisements and creative collaborations.
+        </p>
+
+        <div class="buttons">
+            <a href="#films" class="gold-btn">Explore Work</a>
+            <a href="#contact" class="outline-btn">Get In Touch</a>
+        </div>
+    </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="about-section" id="about">
+
+    <div class="about-image">
+        <img src="{{ data.about_image.url }}" alt="about image">
+    </div>
+
+    <div class="about-content">
+        <span class="about-small">| ABOUT ME |</span>
+
+        <h2>Passionate Actor with dedication towards cinema and storytelling.</h2>
+
+        <p>{{ data.about_description }}</p>
+    </div>
+
+</section>
+
+<!-- ================= FILMS ================= -->
+<section class="filmography" id="films">
+
+    <div class="section-title">
+        <span>| FILMOGRAPHY |</span>
+        <h2>Featured Projects</h2>
+    </div>
+
+    <div class="film-grid">
+
+        {% for film in data.films.all %}
+        <div class="film-card">
+
+            <div class="film-image">
+                <img src="{{ film.poster.url }}" alt="{{ film.title }}">
+            </div>
+
+            <div class="film-content">
+                <span class="year">{{ film.year }}</span>
+                <h3>{{ film.title }}</h3>
+                <p>{{ film.role }}</p>
+
+                {% if film.trailer %}
+                <a href="{{ film.trailer }}" target="_blank" class="film-btn">Watch Trailer</a>
+                {% endif %}
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+</section>
+
+<!-- ================= GALLERY ================= -->
+<section class="gallery-section" id="gallery">
+
+    <div class="section-title">
+        <span>| PHOTO GALLERY |</span>
+        <h2>Moments & Portfolio</h2>
+    </div>
+
+    <div class="gallery-grid">
+
+        {% for image in data.gallery.all %}
+        <div class="gallery-card">
+
+            <img src="{{ image.image.url }}" alt="gallery image">
+
+            {% if image.image_name %}
+            <div class="gallery-name">{{ image.image_name }}</div>
+            {% endif %}
+
+        </div>
+        {% endfor %}
+
+    </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="contact-section" id="contact">
+
+    <div class="section-title">
+        <span>| CONTACT |</span>
+        <h2>Get In Touch</h2>
+    </div>
+
+    <div class="contact-container">
+
+        <!-- LEFT INFO -->
+        <div class="contact-info">
+            <h3>Contact Information</h3>
+
+            <p><i class="fa-solid fa-phone"></i> {{ data.phone }}</p>
+            <p><i class="fa-solid fa-envelope"></i> {{ data.email }}</p>
+            <p><i class="fa-solid fa-location-dot"></i> Available Worldwide</p>
+        </div>
+
+        <!-- RIGHT FORM (MAILTO) -->
+        <div class="contact-form">
+
+            <form action="mailto:{{ data.email }}" method="POST" enctype="text/plain">
+
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <input type="text" name="subject" placeholder="Subject">
+                <textarea name="message" rows="5" placeholder="Message"></textarea>
+
+                <button type="submit">Get In Touch</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- SOCIAL -->
+    <div class="contact-social">
+
+        <a href="{{ data.instagram }}"><i class="fab fa-instagram"></i></a>
+        <a href="{{ data.facebook }}"><i class="fab fa-facebook-f"></i></a>
+        <a href="{{ data.twitter }}"><i class="fab fa-twitter"></i></a>
+        <a href="{{ data.youtube }}"><i class="fab fa-youtube"></i></a>
+
+    </div>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    © 2026 {{ data.actor_name }} | Actor Portfolio
+</footer>
+
+</body>
+</html>
